@@ -5,11 +5,13 @@ on:
     types: [labeled]
 
 jobs:
-  check-label:
+  process-issue:
+    if: github.event.label.name == 'ai-agent'
     runs-on: ubuntu-latest
     
     steps:
-      - name: Check if AI label
+      - name: Check label
         run: |
-          echo "Issue labeled!"
-          echo "Label: ${{ github.event.label.name }}"
+          echo "AI Agent triggered!"
+          echo "Issue: #${{ github.event.issue.number }}"
+          echo "Title: ${{ github.event.issue.title }}"
