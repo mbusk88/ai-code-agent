@@ -1,0 +1,15 @@
+name: AI Code Agent
+
+on:
+  issues:
+    types: [labeled]
+
+jobs:
+  check-label:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Check if AI label
+        run: |
+          echo "Issue labeled!"
+          echo "Label: ${{ github.event.label.name }}"
