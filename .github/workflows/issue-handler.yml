@@ -25,5 +25,7 @@ jobs:
       - name: Run issue processor
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
-          python src/test_issue_reader.py
+          python src/main.py
