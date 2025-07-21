@@ -10,8 +10,20 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Check label
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+      
+      - name: Install dependencies
         run: |
-          echo "AI Agent triggered!"
-          echo "Issue: #${{ github.event.issue.number }}"
-          echo "Title: ${{ github.event.issue.title }}"
+          pip install -r requirements.txt
+      
+      - name: Run issue processor
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python src/test_issue_reader.py
