@@ -6,14 +6,15 @@ def main():
     issue_title = os.getenv('ISSUE_TITLE')
     issue_body = os.getenv('ISSUE_BODY')
     repo_name = os.getenv('GITHUB_REPOSITORY')
+    workspace_path = os.getenv('WORKSPACE_PATH')
 
-    if not all([issue_number, issue_title, issue_body, repo_name]):
+    if not all([issue_number, issue_title, issue_body, repo_name, workspace_path]):
         print("Missing required environment variables.")
         return
 
     print(f"Processing issue #{issue_number}: {issue_title} in {repo_name}")
 
-    success = run_agent_workflow(issue_title, issue_body)
+    success = run_agent_workflow(issue_title, issue_body, workspace_path)
 
     if success:
         print("Agent workflow completed successfully.")

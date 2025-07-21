@@ -25,11 +25,15 @@ jobs:
   process-issue:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout agent code
+        uses: actions/checkout@v4
+
       - name: Checkout target repository
         uses: actions/checkout@v4
         with:
           repository: ${{ inputs.repo_name }}
           token: ${{ secrets.GH_TOKEN }}
+          path: 'workspace'
 
       - name: Setup Google Cloud Authentication
         uses: 'google-github-actions/auth@v2'
@@ -50,4 +54,5 @@ jobs:
           ISSUE_TITLE: ${{ inputs.issue_title }}
           ISSUE_BODY: ${{ inputs.issue_body }}
           GITHUB_REPOSITORY: ${{ inputs.repo_name }}
+          WORKSPACE_PATH: ${{ github.workspace }}/workspace
         run: python src/main.py
