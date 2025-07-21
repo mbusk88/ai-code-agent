@@ -1,31 +1,53 @@
-name: AI Code Agent
+name: AI Code Agent Reusable Workflow
 
 on:
-  issues:
-    types: [labeled]
+  workflow_call:
+    inputs:
+      issue_number:
+        required: true
+        type: string
+      issue_title:
+        required: true
+        type: string
+      issue_body:
+        required: true
+        type: string
+      repo_name:
+        required: true
+        type: string
+    secrets:
+      GCP_SA_KEY:
+        required: true
+      GH_TOKEN:
+        required: true
 
 jobs:
   process-issue:
-    if: github.event.label.name == 'ai-agent'
     runs-on: ubuntu-latest
-    
     steps:
-      - name: Checkout code
+      - name: Checkout target repository
         uses: actions/checkout@v4
-      
+        with:
+          repository: ${{ inputs.repo_name }}
+          token: ${{ secrets.GH_TOKEN }}
+
+      - name: Setup Google Cloud Authentication
+        uses: 'google-github-actions/auth@v2'
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.12'
-      
+
       - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
-      
-      - name: Run issue processor
+        run: pip install -r requirements.txt
+
+      - name: Run AI Code Agent
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ISSUE_NUMBER: ${{ github.event.issue.number }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
-        run: |
-          python src/main.py
+          ISSUE_NUMBER: ${{ inputs.issue_number }}
+          ISSUE_TITLE: ${{ inputs.issue_title }}
+          ISSUE_BODY: ${{ inputs.issue_body }}
+          GITHUB_REPOSITORY: ${{ inputs.repo_name }}
+        run: python src/main.py
