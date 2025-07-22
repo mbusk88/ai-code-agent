@@ -61,7 +61,7 @@ jobs:
       - name: Configure Gemini CLI to use Application Default Credentials
         run: |
           mkdir -p ~/.gemini
-          cat > ~/.gemini/settings.json << EOF
+          cat > ~/.gemini/settings.json << 'EOF'
           {
             "authMethod": "adc"
           }
