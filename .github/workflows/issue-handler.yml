@@ -28,11 +28,11 @@ jobs:
         with:
           repository: mbusk88/ai-code-agent
           path: agent
-      - name: Debug: Current Directory (after agent checkout)
+      - name: Debug Current Directory (after agent checkout)
         run: pwd
-      - name: Debug: List files in current directory (after agent checkout)
+      - name: Debug List files in current directory (after agent checkout)
         run: ls -la
-      - name: Debug: Print requirements.txt content
+      - name: Debug Print requirements.txt content
         run: cat requirements.txt
         working-directory: agent
       - name: Checkout target repository
@@ -41,7 +41,7 @@ jobs:
           repository: ${{ inputs.repo_name }}
           token: ${{ secrets.GH_TOKEN }}
           path: 'workspace'
-      - name: Debug: List files recursively after all checkouts
+      - name: Debug List files recursively after all checkouts
         run: ls -laR
       - name: Setup Google Cloud Authentication
         uses: 'google-github-actions/auth@v2'
