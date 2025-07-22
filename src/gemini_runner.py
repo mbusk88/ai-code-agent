@@ -12,7 +12,7 @@ def run_agent_workflow(issue_title, issue_body, workspace_path):
     Output only the plan.
     """
     print("--- Running Gemini CLI for: PLAN ---")
-    plan_result = subprocess.run(["gemini", "-p", plan_prompt], capture_output=True, text=True, shell=True, cwd=workspace_path)
+    plan_result = subprocess.run(["gemini"], input=plan_prompt, capture_output=True, text=True, cwd=workspace_path)
     if plan_result.returncode != 0:
         print("Gemini planning failed:", plan_result.stderr)
         return False
@@ -28,7 +28,7 @@ def run_agent_workflow(issue_title, issue_body, workspace_path):
     Implement the code changes exactly as described in the plan.
     """
     print("--- Running Gemini CLI for: EXECUTE ---")
-    execute_result = subprocess.run(["gemini", "-p", execute_prompt], capture_output=True, text=True, shell=True, cwd=workspace_path)
+    execute_result = subprocess.run(["gemini"], input=execute_prompt, capture_output=True, text=True, cwd=workspace_path)
     if execute_result.returncode != 0:
         print("Gemini execution failed:", execute_result.stderr)
         return False
@@ -40,7 +40,7 @@ def run_agent_workflow(issue_title, issue_body, workspace_path):
     The implementation is complete. Now, write the necessary tests to ensure the changes are correct and well-tested, following the project's existing testing conventions.
     """
     print("--- Running Gemini CLI for: TEST ---")
-    test_result = subprocess.run(["gemini", "-p", test_prompt], capture_output=True, text=True, shell=True, cwd=workspace_path)
+    test_result = subprocess.run(["gemini"], input=test_prompt, capture_output=True, text=True, cwd=workspace_path)
     if test_result.returncode != 0:
         print("Gemini testing failed:", test_result.stderr)
         return False
@@ -52,7 +52,7 @@ def run_agent_workflow(issue_title, issue_body, workspace_path):
     Finally, review all your changes. Ensure they are consistent with the project's style. Prepare the final commit message.
     """
     print("--- Running Gemini CLI for: REVIEW ---")
-    review_result = subprocess.run(["gemini", "-p", review_prompt], capture_output=True, text=True, shell=True, cwd=workspace_path)
+    review_result = subprocess.run(["gemini"], input=review_prompt, capture_output=True, text=True, cwd=workspace_path)
     if review_result.returncode != 0:
         print("Gemini review failed:", review_result.stderr)
         return False
