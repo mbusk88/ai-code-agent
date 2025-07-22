@@ -61,7 +61,15 @@ jobs:
       - name: Configure Gemini CLI to use Application Default Credentials
         run: |
           mkdir -p ~/.gemini
-          echo '{"authMethod": "applicationDefaultCredentials"}' > ~/.gemini/settings.json
+          cat > ~/.gemini/settings.json << EOF
+          {
+            "authMethod": "adc"
+          }
+          EOF
+          echo "Created Gemini config file:"
+          cat ~/.gemini/settings.json
+          echo "Google Cloud credentials file exists:"
+          ls -la $GOOGLE_APPLICATION_CREDENTIALS
 
       - name: Install Python dependencies
         run: python -m pip install -r requirements.txt
@@ -73,4 +81,5 @@ jobs:
           ISSUE_BODY: ${{ inputs.issue_body }}
           GITHUB_REPOSITORY: ${{ inputs.repo_name }}
           WORKSPACE_PATH: ${{ github.workspace }}/workspace
+          GEMINI_AUTH_METHOD: applicationDefaultCredentials
         run: python agent/src/main.py
