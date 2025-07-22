@@ -57,6 +57,12 @@ jobs:
           node-version: '20'
       - name: Install Gemini CLI
         run: npm install -g @google/gemini-cli
+
+      - name: Configure Gemini CLI to use Application Default Credentials
+        run: |
+          mkdir -p ~/.gemini
+          echo '{"authMethod": "applicationDefaultCredentials"}' > ~/.gemini/settings.json
+
       - name: Install Python dependencies
         run: python -m pip install -r requirements.txt
         working-directory: agent
