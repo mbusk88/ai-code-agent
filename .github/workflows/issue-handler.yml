@@ -29,6 +29,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: mbusk88/ai-code-agent
+          path: agent
 
       - name: Debug: Current Directory (after agent checkout)
         run: pwd
@@ -38,7 +39,7 @@ jobs:
 
       - name: Debug: Print requirements.txt content
         run: cat requirements.txt
-        working-directory: ${{ github.workspace }}
+        working-directory: agent
 
       - name: Checkout target repository
         uses: actions/checkout@v4
@@ -70,7 +71,7 @@ jobs:
 
       - name: Install Python dependencies
         run: python -m pip install -r requirements.txt
-        working-directory: ${{ github.workspace }}
+        working-directory: agent
 
       - name: Run AI Code Agent
         env:
@@ -79,4 +80,4 @@ jobs:
           ISSUE_BODY: ${{ inputs.issue_body }}
           GITHUB_REPOSITORY: ${{ inputs.repo_name }}
           WORKSPACE_PATH: ${{ github.workspace }}/workspace
-        run: python src/main.py
+        run: python agent/src/main.py
