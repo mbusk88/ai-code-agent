@@ -27,6 +27,8 @@ jobs:
     steps:
       - name: Checkout agent code
         uses: actions/checkout@v4
+        with:
+          repository: mbusk88/ai-code-agent
 
       - name: Debug: Current Directory (after agent checkout)
         run: pwd
